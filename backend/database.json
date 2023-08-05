@@ -3,7 +3,7 @@
     "driver": "pg",
     "host": "localhost",
     "port": 5432,
-    "database": "email",
+    "database": "inbox_app",
     "user": "admin",
     "password": "admin"
   },
@@ -11,7 +11,7 @@
     "driver": "pg",
     "host": "localhost",
     "port": 5432,
-    "database": "email_test",
+    "database": "inbox_app_test",
     "user": "admin",
     "password": "admin"
   }

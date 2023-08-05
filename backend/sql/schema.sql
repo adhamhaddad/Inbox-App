@@ -1,38 +1,38 @@
 -- SET client_min_messages = warning;
 -- -------------------------
--- Database email
+-- Database inbox_app
 -- -------------------------
-DROP DATABASE IF EXISTS email;
+DROP DATABASE IF EXISTS inbox_app;
 --
 --
-CREATE DATABASE email;
+CREATE DATABASE inbox_app;
 -- -------------------------
--- Database email_test
+-- Database inbox_app_test
 -- -------------------------
-DROP DATABASE IF EXISTS email_test;
+DROP DATABASE IF EXISTS inbox_app_test;
 --
 --
-CREATE DATABASE email_test;
+CREATE DATABASE inbox_app_test;
 -- -------------------------
 -- Role admin
 -- -------------------------
--- DROP ROLE IF EXISTS admin;
+DROP ROLE IF EXISTS admin;
 --
 --
--- CREATE ROLE admin WITH PASSWORD 'admin';
+CREATE ROLE admin WITH PASSWORD 'admin';
 -- -------------------------
 -- Alter Role admin
 -- -------------------------
--- ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
+ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
 -- -------------------------
 -- Database GRANT PRIVILEGES
 -- -------------------------
-GRANT ALL PRIVILEGES ON DATABASE email TO admin;
-GRANT ALL PRIVILEGES ON DATABASE email_test TO admin;
+GRANT ALL PRIVILEGES ON DATABASE inbox_app TO admin;
+GRANT ALL PRIVILEGES ON DATABASE inbox_app_test TO admin;
 -- -------------------------
--- Connect to email database
+-- Connect to inbox_app database
 -- -------------------------
-\c email;
+\c inbox_app;
 -- -------------------------
 -- Set Timezone
 -- -------------------------
