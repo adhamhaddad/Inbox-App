@@ -226,7 +226,7 @@ const Register = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='user@email.com'
+                      placeholder='user@inbox.com'
                     />
                   )}
                 />

@@ -47,7 +47,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const menuItemsArr = []
 const filter = createFilterOptions()
-const isEmail = value => value.includes('@gmail.com')
+const isEmail = value => value.includes('@inbox.com')
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: '2.375rem',
