@@ -1,24 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { body } from 'express-validator';
+import { check, body } from 'express-validator';
 import { validate } from '../validationResult';
 
 const validFolders = ['INBOX', 'SENT', 'SPAM', 'DRAFT', 'TRASH'];
 
 export const validateCreateMailFolder = [
-  body('mail_id')
+  body('mail_ids')
     .exists()
-    .withMessage('mail_id is missing from the body')
+    .withMessage('mail_ids is missing from the body')
     .notEmpty()
-    .withMessage('mail_id is empty')
-    .isNumeric()
-    .withMessage('mail_id must be a number'),
-  body('user_id')
-    .exists()
-    .withMessage('user_id is missing from the body')
-    .notEmpty()
-    .withMessage('user_id is empty')
-    .isNumeric()
-    .withMessage('user_id must be a number'),
+    .withMessage('mail_ids is empty')
+    .isArray()
+    .withMessage('label must be an array'),
   body('folder')
     .exists()
     .withMessage('folder is missing from the body')

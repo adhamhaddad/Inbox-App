@@ -1,15 +1,20 @@
 import { Router } from 'express';
-import {
-  validateCreateMailLabel,
-  validateUpdateMailLabel
-} from '../../middleware/validation/mailLabels';
-import { createMailLabel, updateMailLabel } from '../../controllers/mailLabels';
-import { verifyToken } from '../../middleware/verifyToken';
+import { validateUpdateMailLabel } from '../../middleware/validation/mailLabels';
+import { updateMailLabel } from '../../controllers/mailLabels';
+import { verifyToken, expressFilterRequest } from '../../middleware';
+
+const allowedKeys = {
+  patch: ['mail_ids', 'label']
+};
 
 const router = Router();
 
-router
-  .post('/', validateCreateMailLabel, verifyToken, createMailLabel)
-  .delete('/:id', validateUpdateMailLabel, verifyToken, updateMailLabel);
+router.patch(
+  '/',
+  validateUpdateMailLabel,
+  verifyToken,
+  expressFilterRequest(allowedKeys),
+  updateMailLabel
+);
 
 export default router;

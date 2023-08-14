@@ -45,7 +45,19 @@ To get started with the project, follow these steps:
 5. Run `npm install` or `yarn` to install frontend dependencies.
 6. Start the frontend server with `npm run start` or `yarn start`.
 
-**Note:** The `.env` file contains environment variables that are used by the application to connect to the database and Redis server, as well as the session secret key. Please review the file carefully before using it, and make any necessary changes to ensure that it works with your specific environment.
+**Note:** The `.env.example` file contains environment variables that are used by the application to connect to the database and Redis server, as well as the session secret key. Please review the file carefully before using it, and make any necessary changes to ensure that it works with your specific environment.
+
+To ensure that your application functions correctly, please follow these steps:
+
+1. Rename the `.env.example` file to `.env`. The `.env` file is where you will store your actual environment-specific configuration.
+
+2. Open the newly renamed `.env` file in a text editor.
+
+3. Go through each environment variable defined in the `.env` file and review its value. Modify the values as needed to match your database connection details, Redis server configuration, and session secret key requirements.
+
+4. Take special care to ensure that the database connection details, such as the host, port, database name, username, and password, are correctly set according to your database setup. Make sure these values accurately reflect your database configuration to establish a successful connection.
+
+5. Save the changes to the `.env` file.
 
 ## Contributing
 

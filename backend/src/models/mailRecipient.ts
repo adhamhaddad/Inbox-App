@@ -2,11 +2,11 @@ import { PoolClient } from 'pg';
 import { pgClient } from '../database';
 import MailFolder, { FolderTypes } from './mailFolder';
 
-enum RecipientType {
-  'TO',
-  'CC',
-  'BCC',
-  'REPLY_TO'
+export enum RecipientType {
+  TO = 'TO',
+  CC = 'CC',
+  BCC = 'BCC',
+  REPLY_TO = 'REPLY_TO'
 }
 
 export type MailRecipientType = {
@@ -15,15 +15,18 @@ export type MailRecipientType = {
   recipient_id: number;
   recipient_email: string;
   recipient_type: RecipientType;
-  created_at?: Date;
+  reply_to_mail_id: number;
+  reply_to_recipient_id: number;
 };
+
 type MailRecipientTypes = {
-  sender_id: number;
   mail_id: number;
-  to: MailRecipientType[];
-  cc: MailRecipientType[];
-  bcc: MailRecipientType[];
+  from: { user_id: number; email: string };
+  to: { user_id: number; email: string }[];
+  cc: { user_id: number; email: string }[];
+  bcc: { user_id: number; email: string }[];
 };
+
 type MailRecipientTypeReturn = {
   to: MailRecipientType[];
   cc: MailRecipientType[];
@@ -56,19 +59,25 @@ class MailRecipient {
     if (to.length) {
       for (const recipient of to) {
         const query = {
-          text: 'INSERT INTO mail_recipients (mail_id, recipient_id, recipient_email, recipient_type) VALUES ($1, $2, $3, $4) RETURNING *',
+          text: `
+          INSERT INTO mail_recipients
+          (mail_id, recipient_id, recipient_email, recipient_type, reply_to_mail_id, reply_to_recipient_id)
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+          `,
           values: [
             m.mail_id,
-            recipient.recipient_id,
-            recipient.recipient_email,
-            RecipientType.TO
+            recipient.user_id,
+            recipient.email,
+            RecipientType.TO,
+            null, // This is null for now (reply_to_mail_id)
+            null
           ]
         };
         const result = await connection.query(query);
 
         await mailFolder.createMailFolder(connection, {
           mail_id: m.mail_id,
-          user_id: m.sender_id,
+          user_id: recipient.user_id,
           folder: FolderTypes.INBOX
         });
         toResult.push(result.rows[0].recipient_email);
@@ -79,18 +88,24 @@ class MailRecipient {
     if (cc.length) {
       for (const recipient of cc) {
         const query = {
-          text: 'INSERT INTO mail_recipients (mail_id, recipient_id, recipient_email, recipient_type) VALUES ($1, $2, $3, $4) RETURNING *',
+          text: `
+          INSERT INTO mail_recipients
+          (mail_id, recipient_id, recipient_email, recipient_type, reply_to_mail_id, reply_to_recipient_id)
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+          `,
           values: [
             m.mail_id,
-            recipient.recipient_id,
-            recipient.recipient_email,
-            RecipientType.CC
+            recipient.user_id,
+            recipient.email,
+            RecipientType.CC,
+            null, // This is null for now (reply_to_mail_id)
+            null
           ]
         };
         const result = await connection.query(query);
         await mailFolder.createMailFolder(connection, {
           mail_id: m.mail_id,
-          user_id: m.sender_id,
+          user_id: recipient.user_id,
           folder: FolderTypes.INBOX
         });
         ccResult.push(result.rows[0].recipient_email);
@@ -100,19 +115,25 @@ class MailRecipient {
     if (bcc.length) {
       for (const recipient of bcc) {
         const query = {
-          text: 'INSERT INTO mail_recipients (mail_id, recipient_id, recipient_email, recipient_type) VALUES ($1, $2, $3, $4) RETURNING *',
+          text: `
+          INSERT INTO mail_recipients
+          (mail_id, recipient_id, recipient_email, recipient_type, reply_to_mail_id, reply_to_recipient_id)
+          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+          `,
           values: [
             m.mail_id,
-            recipient.recipient_id,
-            recipient.recipient_email,
-            RecipientType.BCC
+            recipient.user_id,
+            recipient.email,
+            RecipientType.BCC,
+            null, // This is null for now (reply_to_mail_id)
+            null
           ]
         };
         const result = await connection.query(query);
 
         await mailFolder.createMailFolder(connection, {
           mail_id: m.mail_id,
-          user_id: m.sender_id,
+          user_id: recipient.user_id,
           folder: FolderTypes.INBOX
         });
         bccResult.push(result.rows[0].recipient_email);

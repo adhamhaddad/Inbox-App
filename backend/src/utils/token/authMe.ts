@@ -46,7 +46,7 @@ export const authMe = async (req: Request, res: Response) => {
       }
       const { id, first_name, last_name, email } = decoded;
 
-      req.user = { id };
+      req.user = { id, email };
 
       return res.status(200).json({
         data: {
@@ -83,7 +83,7 @@ export const authMe = async (req: Request, res: Response) => {
       });
 
       // Attach user object to request and proceed with new access token
-      req.user = { id };
+      req.user = { id, email };
 
       return res.status(200).json({
         data: {

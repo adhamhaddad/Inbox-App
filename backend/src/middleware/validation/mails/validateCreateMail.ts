@@ -3,15 +3,6 @@ import { body } from 'express-validator';
 import { validate } from '../validationResult';
 
 export const validateCreateMail = [
-  body('from')
-    .exists()
-    .withMessage('Email is missing from the body')
-    .notEmpty()
-    .withMessage('Email is empty')
-    .isEmail()
-    .withMessage('Email is not valid')
-    .normalizeEmail()
-    .withMessage('Email is not normalized'),
   body('to').exists().withMessage('To is missing from the body'),
   body('cc').exists().withMessage('CC is missing from the body'),
   body('bcc').exists().withMessage('BCC is missing from the body'),

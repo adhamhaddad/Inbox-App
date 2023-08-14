@@ -27,7 +27,7 @@ router
     expressFilterRequest(allowedKeys),
     createUser
   )
-  .post('/login', validateLogin, authUser)
+  .post('/login', validateLogin, expressFilterRequest(allowedKeys), authUser)
   .patch(
     '/reset-password',
     validateUpdatePassword,

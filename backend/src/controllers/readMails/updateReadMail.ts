@@ -8,7 +8,7 @@ export const updateReadMail = async (req: Request, res: Response) => {
   try {
     const user_id: number = req.user?.id as unknown as number;
     const response = await readMail.updateReadMail(
-      parseInt(req.params.id),
+      parseInt(req.params.mail_id),
       user_id
     );
     res.status(200).json({ data: response });

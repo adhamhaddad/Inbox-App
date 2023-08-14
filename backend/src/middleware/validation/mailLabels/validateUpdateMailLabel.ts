@@ -5,20 +5,13 @@ import { validate } from '../validationResult';
 const validLabels = ['PERSONAL', 'PRIVATE', 'COMPANY', 'IMPORTANT'];
 
 export const validateUpdateMailLabel = [
-  body('mail_id')
+  body('mail_ids')
     .exists()
-    .withMessage('mail_id is missing from the body')
+    .withMessage('mail_ids is missing from the body')
     .notEmpty()
-    .withMessage('mail_id is empty')
-    .isNumeric()
-    .withMessage('mail_id must be a number'),
-  body('user_id')
-    .exists()
-    .withMessage('user_id is missing from the body')
-    .notEmpty()
-    .withMessage('user_id is empty')
-    .isNumeric()
-    .withMessage('user_id must be a number'),
+    .withMessage('mail_ids is empty')
+    .isArray()
+    .withMessage('label must be an array'),
   body('label')
     .exists()
     .withMessage('label is missing from the body')

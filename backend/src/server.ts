@@ -40,11 +40,14 @@ const corsOptions = {
 const GROUPS = path.join(__dirname, '..', 'uploads', 'groups-pictures');
 const PROFILE = path.join(__dirname, '..', 'uploads', 'profile-pictures');
 
-// Middlewares
+// Middleware
+// Enable only in development HTTP request logger middleware
+if (process.env.NODE_ENV === "dev") {
+  app.use(morgan("dev"));
+}
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(cookieParser());
-app.use(morgan('common'));
 app.use(express.json());
 app.use('/uploads/groups-pictures', express.static(GROUPS));
 app.use('/uploads/profile-pictures', express.static(PROFILE));
@@ -59,11 +62,6 @@ const server = http.createServer(app).listen(port, () => {
 
 export const io = new Server(server, { cors: corsOptions });
 
-io.on('connection', (socket) => {
-  console.log('User connected', socket.id);
-  io.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+io.on('connection', (socket) => {});
 
 export default app;

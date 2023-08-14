@@ -27,7 +27,13 @@ export const validateCreateUser = [
     .isEmail()
     .withMessage('Email is not valid')
     .normalizeEmail()
-    .withMessage('Email is not normalized'),
+    .withMessage('Email is not normalized')
+    .custom((value, { req }) => {
+      if (!value.includes('@inbox.com')) {
+        throw new Error('Email must contain "@inbox.com"');
+      }
+      return true;
+    }),
   body('password')
     .exists()
     .withMessage('Password is missing from the body')

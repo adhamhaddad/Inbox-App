@@ -49,7 +49,7 @@ export const verifyAccessToken = async (
       if (!cachedToken || cachedToken !== token) {
         throw new Error('Access token not found or expired');
       }
-      req.user = { id: decoded.id };
+      req.user = { id: decoded.id, email: decoded.email };
 
       return next();
     } catch (err) {
@@ -80,7 +80,7 @@ export const verifyAccessToken = async (
       });
 
       // Attach user object to request and proceed with new access token
-      req.user = { id };
+      req.user = { id, email };
       io.emit('accessToken', { action: 'CREATE', data: newAccessToken });
 
       return next();

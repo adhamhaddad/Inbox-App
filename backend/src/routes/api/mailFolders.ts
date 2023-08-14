@@ -1,10 +1,20 @@
 import { Router } from 'express';
 import { validateCreateMailFolder } from '../../middleware/validation/mailFolders';
 import { updateMailFolder } from '../../controllers/mailFolders';
-import { verifyToken } from '../../middleware';
+import { verifyToken, expressFilterRequest } from '../../middleware';
+
+const allowedKeys = {
+  patch: ['mail_ids', 'folder']
+};
 
 const router = Router();
 
-router.patch('/:id', validateCreateMailFolder, verifyToken, updateMailFolder);
+router.patch(
+  '/',
+  validateCreateMailFolder,
+  verifyToken,
+  expressFilterRequest(allowedKeys),
+  updateMailFolder
+);
 
 export default router;

@@ -16,14 +16,14 @@ CREATE DATABASE inbox_app_test;
 -- -------------------------
 -- Role admin
 -- -------------------------
-DROP ROLE IF EXISTS admin;
+-- DROP ROLE IF EXISTS admin;
 --
 --
-CREATE ROLE admin WITH PASSWORD 'admin';
+-- CREATE ROLE admin WITH PASSWORD 'admin';
 -- -------------------------
 -- Alter Role admin
 -- -------------------------
-ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
+-- ALTER ROLE admin WITH SUPERUSER CREATEROLE CREATEDB LOGIN;
 -- -------------------------
 -- Database GRANT PRIVILEGES
 -- -------------------------
@@ -114,9 +114,7 @@ CREATE TABLE IF NOT EXISTS mails (
   sender_id INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
   subject VARCHAR(300),
   message TEXT,
-  created_at TIMESTAMP DEFAULT timezone('UTC', now()),
-  updated_at TIMESTAMP,
-  deleted_at TIMESTAMP
+  created_at TIMESTAMP DEFAULT timezone('UTC', now())
 );
 -- -------------------------
 -- Table attachments
@@ -183,6 +181,7 @@ CREATE TABLE IF NOT EXISTS mail_recipients (
   id SERIAL PRIMARY KEY,
   mail_id INT NOT NULL REFERENCES mails(id) ON UPDATE CASCADE ON DELETE CASCADE,
   recipient_id INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  recipient_email VARCHAR(255) NOT NULL,
   recipient_type recipient_types NOT NULL,
   reply_to_mail_id INT REFERENCES mails(id) ON UPDATE CASCADE ON DELETE CASCADE,
   reply_to_recipient_id INT REFERENCES mail_recipients(id) ON UPDATE CASCADE ON DELETE CASCADE

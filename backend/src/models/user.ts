@@ -78,7 +78,7 @@ class User {
     return this.withConnection(async (connection: PoolClient) => {
       const query = {
         text: `
-          SELECT u.id, u.first_name, u.last_name, u.email, COALESCE(pp.image_url, null) AS image_url
+          SELECT u.id AS user_id, u.first_name, u.last_name, u.email, COALESCE(pp.image_url, null) AS image_url
           FROM users u
           LEFT JOIN (
             SELECT DISTINCT ON (user_id) *
@@ -90,6 +90,9 @@ class User {
         values: [`%${email}%`]
       };
       const result = await connection.query(query);
+      if (!result.rows.length) {
+        return [];
+      }
       return result.rows[0];
     });
   }
